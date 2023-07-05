@@ -45,7 +45,7 @@ const getData = () => {
     });
 }
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
 
     try {
 
