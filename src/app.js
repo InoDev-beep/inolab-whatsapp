@@ -52,6 +52,8 @@ app.post('/webhook', async (req, res) => {
         const data = await getData();
         const { messages } = data;
 
+        console.log(messages);
+
         const rows = [
             ...messages,
             {
