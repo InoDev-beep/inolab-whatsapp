@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors({origin: '*'}));
 
 const instanceId = 'instance53185';
 const token = 'zyvfgq78imhe4bnh';
