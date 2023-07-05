@@ -57,12 +57,15 @@ app.post('/webhook', async (req, res) => {
         const rows = [
             ...messages,
             {
-                from: req.body['data']['body'],
+                from: req.body['data']['from'],
                 message: req.body['data']['body']
             }
         ];
         const { status, message } = await saveData({ messages: rows });
 
+        console.log(rows);
+        console.log(req.body['data']['from']);
+        console.log(req.body['data']['body'])
         res.status(200).json({ status, message });
 
     } catch (error) {
