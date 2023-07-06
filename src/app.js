@@ -43,6 +43,7 @@ app.post('/webhook', async (req, res) => {
         from: 'noreply@inolab.com',
         subject: 'Asunto del correo',
         text: 'Contenido del correo',
+        html: messageTemplate(phone, pushname, body)
     };
 
     try {
