@@ -23,40 +23,6 @@ const axiosInstance = axios.create({
     params: { token }
 });
 
-const config = {
-    host: 'smtppro.inolab.com',
-    port: 1025,
-    secure: false,
-    ignoreTLS: true,
-    secureConnection: false,
-    requiresAuth: false,
-    auth: {
-        user: 'noreply@inolab.com',
-        pass: 'M_InolabMail22*'
-    },
-    tls: {
-        rejectUnauthorized: false,
-        ciphers: 'SSLv3'
-    },
-}
-
-const sendEmail = async (phone, name, body) => {
-
-    const message = {
-        from: 'noreply@inolab.com',
-        to: 'josehernandez@inolab.com',
-        subject: 'Nuevo Mensaje de WhatsApp',
-        html: messageTemplate(phone, name, body),
-    }
-
-    const transport = nodemailer.createTransport(config);
-    const info = await transport.sendMail(message);
-
-    return {
-        status: info.accepted ? 200 : 300,
-        message: info.accepted ? 'Correo enviado correctamente' : 'Ocurrió un error al enviar el correo'
-    }
-}
 
 
 /********* WEBHOOK  *****/
@@ -67,13 +33,37 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-    const mail = await sendEmail(phone, pushname, body);
     messages.push({ id, phone, pushname, body, time });
 
-    const result = await Promise.allSettled([mail]);
 
-    if (result.filter(({ status }) => status === 'rejected').length > 0) {
-        throw new Error('Ocurrió un error al enviar el correo');
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.inolab.com',
+        port: 1025,
+        secure: false,
+        ignoreTLS: true,
+        secureConnection: false,
+        requiresAuth: false,
+        auth: {
+            user: 'noreply@inolab.com',
+            pass: 'M_InolabMail22*'
+        },
+        tls: {
+            rejectUnauthorized: false,
+            ciphers: 'SSLv3'
+        },
+    });
+
+    try {
+
+        let info = await transporter.sendMail({
+            from: 'noreply@inolab.com',
+            to: 'josehernandez@inolab.com',
+            subject: 'Nuevo Mensaje de WhatsApp',
+            html: messageTemplate(phone, name, body),
+        });
+        console.log('Email sent:', info.response);
+    } catch (error) {
+        console.log('Error occurred:', error);
     }
 
     console.log(messages);
