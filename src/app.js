@@ -52,10 +52,7 @@ const sendEmail = async (phone, name, body) => {
     const transport = nodemailer.createTransport(config);
     const info = await transport.sendMail(message);
 
-    return {
-        status: info.accepted ? 200 : 300,
-        message: info.accepted ? 'Correo enviado correctamente' : 'Ocurrió un error al enviar el correo'
-    }
+    return { info }
 }
 
 
@@ -67,10 +64,18 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-    const mail = await sendEmail(phone, pushname, body);
-    messages.push({ id, phone, pushname, body, time });
+    const { info } = await sendEmail(phone, pushname, body);
 
-    console.log(messages);
+
+    if(info.accepted){
+
+        messages.push({ id, phone, pushname, body, time });
+        console.log(messages);
+        
+    }else{
+
+        console.log('Correo no enviado');
+    }
 });
 
 
