@@ -26,11 +26,12 @@ const axiosInstance = axios.create({
 const transporter = nodemailer.createTransport({
     host: 'smtp.inolab.com',
     port: 1025,
-    secure: false,
+    secureConnection: false,
+    requiresAuth: false,
     auth: {
         user: 'noreply@inolab.com',
         pass: 'M_InolabMail22*'
-    }
+    },
 });
 
 
@@ -56,7 +57,7 @@ app.post('/webhook', async (req, res) => {
         console.log('Email sent:', info.response);
 
     } catch (error) {
-
+        
         console.log('Error occurred:', error);
     }
 
