@@ -49,6 +49,8 @@ app.post('/webhook', async (req, res) => {
 
     try {
 
+        console.log(req.body);
+
         const data = await getData();
         const { messages } = data;
 
