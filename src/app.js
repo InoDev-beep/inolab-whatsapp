@@ -47,33 +47,7 @@ const getData = () => {
 
 app.post('/webhook', async (req, res) => {
 
-    try {
-
-        const data = await getData();
-        const { messages } = data;
-
-        const rows = [
-            ...messages,
-            {
-                from: req.body['data']['body'],
-                message: req.body['data']['body']
-            }
-        ];
-
-        const { status, message } = await saveData({ messages: rows });
-
-        console.log(req.body);
-
-        res.status(200).json({ status, message });
-
-    } catch (error) {
-
-        res.status(300).json({
-            status: 300,
-            message: error
-        });
-
-    }
+    console.log(req.body);
 
 
 });
