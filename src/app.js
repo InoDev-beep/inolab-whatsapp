@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import axios from 'axios';
 import cors from 'cors';
 import { messageTemplate } from './email-template.js';
-import sgMail from '@sendgrid/client';
+import sgMail from '@sendgrid/mail'
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +15,7 @@ const sgAPI_KEY = 'SG.C-TqTLkQR0-GFt2RAF5JmQ.pT-FD4HAAvZ1jnUlXs-tGD19xLJY3-S_81E
 let messages = []
 
 sgMail.setApiKey(sgAPI_KEY);
+
 const axiosInstance = axios.create({
     baseURL: `https://api.ultramsg.com/${instanceId}/`,
     withCredentials: false,
