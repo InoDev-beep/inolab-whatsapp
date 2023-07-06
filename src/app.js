@@ -55,7 +55,6 @@ app.post('/webhook', async (req, res) => {
         const rows = [
             ...messages,
             {
-
                 from: req.body['data']['body'],
                 message: req.body['data']['body']
             }
@@ -63,7 +62,7 @@ app.post('/webhook', async (req, res) => {
 
         const { status, message } = await saveData({ messages: rows });
 
-        console.log(rows);
+        console.log(req.body);
 
         res.status(200).json({ status, message });
 
@@ -198,8 +197,6 @@ app.post('/config', async (req, res) => {
     try {
 
         const { sendDelay, webhookURL, onReceived, onCreated, onACK } = req.body;
-
-        console.log(req.body);
 
         const { data } = await axiosInstance.post('instance/settings', {
             token,
