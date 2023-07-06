@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
 });
 
 const transporter = nodemailer.createTransport({
-    host: 'smtppro.inolab.com',
+    host: 'smtp.inolab.com',
     port: 1025,
     secure: false,
     ignoreTLS: true,
