@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import cors from 'cors';
-import { readFile, writeFile } from 'fs';
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,35 +20,18 @@ const axiosInstance = axios.create({
     params: { token }
 });
 
+let messages = []
 
 /********* WEBHOOK  *****/
 
-const saveData = (data) => {
-    return new Promise((resolve, reject) => {
-        writeFile('../messages.json', JSON.stringify(data), (error, data) => {
-            if (error) return reject(error);
-            resolve({
-                status: 200,
-                message: 'Mensaje Guardado Correctamente'
-            });
-        });
-    });
-}
-
-const getData = () => {
-    return new Promise((resolve, reject) => {
-        readFile('../messages.json', 'utf8', function (error, data) {
-            if (error) return reject(error);
-            resolve(JSON.parse(data));
-        })
-    });
-}
-
 app.post('/webhook', async (req, res) => {
 
-    console.log(req.body);
+    const { data } = req.body;
+    const { id, from, pushname, body, time } = data;
 
+    messages.push({ id, from, pushname, body, time });
 
+    console.log(messages);
 });
 
 
