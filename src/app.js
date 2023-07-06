@@ -45,7 +45,7 @@ const getData = () => {
     });
 }
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
 
     try {
 
@@ -64,7 +64,7 @@ app.post('/webhook', (req, res) => {
         const { status, message } = await saveData({ messages: rows });
 
         console.log(rows);
-        
+
         res.status(200).json({ status, message });
 
     } catch (error) {
