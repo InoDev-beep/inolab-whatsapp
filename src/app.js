@@ -81,7 +81,7 @@ app.post('/webhook', async (req, res) => {
     try {
 
         const transport = nodemailer.createTransport(config);
-        const info = await transporter.sendMail({
+        const info = await transport.sendMail({
             from: 'noreply@inolab.com',
             to: 'josehernandez@inolab.com',
             subject: 'Nuevo Mensaje de WhatsApp',
