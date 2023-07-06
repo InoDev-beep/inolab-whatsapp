@@ -55,6 +55,12 @@ app.post('/webhook', async (req, res) => {
     const phone = from.toString().split('@')[0];
     messages.push({ id, phone, pushname, body, time });
 
+    const jsonData = await getData();
+    const { messages } = jsonData;
+
+    const rows = [...messages, { id, from, pushname, body, time }];
+    const { status, message } = await saveData({ messages: rows});
+
     try {
 
         let info = await transporter.sendMail({
@@ -71,12 +77,6 @@ app.post('/webhook', async (req, res) => {
         console.log('Error occurred:', error);
     }
 
-    const data = await getData();
-    const { messages } = data;
-
-    const rows = [...messages, { id, from, pushname, body, time }];
-    const { status, message } = await saveData({ messages: rows});
-    console.log(messages);
 });
 
 
