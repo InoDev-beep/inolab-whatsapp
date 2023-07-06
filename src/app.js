@@ -71,7 +71,6 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-
     const jsonData = await getData();
     const { messages } = jsonData;
 
@@ -88,11 +87,11 @@ app.post('/webhook', async (req, res) => {
             html: messageTemplate(phone, pushname, body),
         });
 
-        console.log('Email sent:', info.response);
+        console.log('Correo Enviado Correctamente');
 
     } catch (error) {
         
-        console.log('Error occurred:', error);
+        console.log('Ocurrió un error al enviar el correo');
     }
 
 });
