@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import cors from 'cors';
+import nodemailer from 'nodemailer'
+import { messageTemplate } from './email-template';
 
 const app = express();
 app.use(bodyParser.json());
@@ -9,6 +11,7 @@ app.use(cors({ origin: '*' }));
 
 const instanceId = 'instance53185';
 const token = 'zyvfgq78imhe4bnh';
+let messages = []
 
 const axiosInstance = axios.create({
     baseURL: `https://api.ultramsg.com/${instanceId}/`,
@@ -20,7 +23,41 @@ const axiosInstance = axios.create({
     params: { token }
 });
 
-let messages = []
+const config = {
+    host: 'smtp.inolab.com',
+    port: 1025,
+    secure: false,
+    ignoreTLS: true,
+    secureConnection: false,
+    requiresAuth: false,
+    auth: {
+        user: 'noreply@inolab.com',
+        pass: 'M_InolabMail22*'
+    },
+    tls: {
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
+    },
+}
+
+const sendEmail = async (phone, name, message) => {
+
+    const message = {
+        from: 'noreply@inolab.com',
+        to: 'josehernandez@inolab.com',
+        subject: 'Nuevo Mensaje de WhatsApp',
+        html: messageTemplate(phone, name, message),
+    }
+
+    const transport = nodemailer.createTransport(config);
+    const info = await transport.sendMail(message);
+
+    return {
+        status: info.accepted ? 200 : 300,
+        message: info.accepted ? 'Correo enviado correctamente' : 'Ocurrió un error al enviar el correo'
+    }
+}
+
 
 /********* WEBHOOK  *****/
 
@@ -29,7 +66,9 @@ app.post('/webhook', async (req, res) => {
     const { data } = req.body;
     const { id, from, pushname, body, time } = data;
 
-    messages.push({ id, from, pushname, body, time });
+    const phone = from.toString().split('@')[0];
+    const mail = await sendEmail(phone, pushname, body);
+    messages.push({ id, phone, pushname, body, time });
 
     console.log(messages);
 });
