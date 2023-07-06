@@ -199,7 +199,7 @@ app.post('/config', async (req, res) => {
 
         const { sendDelay, webhookURL: webhook_url, onReceived: webhook_message_received, onCreated: webhook_message_create, onACK: webhook_message_ack } = req.body;
 
-        const { data } = await axiosInstance.post('logout', {
+        const { data } = await axiosInstance.post('instance/settings', {
             token,
             sendDelay,
             webhook_url,
