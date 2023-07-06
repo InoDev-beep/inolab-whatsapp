@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import cors from 'cors';
-import nodemailer from 'nodemailer'
 import { messageTemplate } from './email-template.js';
+import sgMail from '@sendgrid/client';
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,8 +11,10 @@ app.use(cors({ origin: '*' }));
 
 const instanceId = 'instance53185';
 const token = 'zyvfgq78imhe4bnh';
+const sgAPI_KEY= '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';
 let messages = []
 
+sgMail.setApiKey(sgAPI_KEY);
 const axiosInstance = axios.create({
     baseURL: `https://api.ultramsg.com/${instanceId}/`,
     withCredentials: false,
@@ -23,15 +25,6 @@ const axiosInstance = axios.create({
     params: { token }
 });
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.inolab.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'noreply@inolab.com',
-        pass: 'M_InolabMail22*'
-    }
-});
 
 
 /********* WEBHOOK  *****/
@@ -44,21 +37,13 @@ app.post('/webhook', async (req, res) => {
     const phone = from.toString().split('@')[0];
     messages.push({ id, phone, pushname, body, time });
 
-    try {
-
-        let info = await transporter.sendMail({
-            from: 'noreply@inolab.com',
-            to: 'josehernandez@inolab.com',
-            subject: 'Nuevo Mensaje de WhatsApp',
-            html: messageTemplate(phone, pushname, body),
-        });
-
-        console.log('Email sent:', info.response);
-
-    } catch (error) {
-        
-        console.log('Error occurred:', error);
-    }
+      const msg = {
+        to: 'josehernandez@inolab.com',
+        from: 'noreply@inolab.com',
+        subject: 'Asunto del correo',
+        text: 'Contenido del correo',
+      };
+      sgMail.send(msg);
 
     console.log(messages);
 });
