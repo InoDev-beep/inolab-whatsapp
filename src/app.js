@@ -24,6 +24,24 @@ const axiosInstance = axios.create({
 });
 
 
+const config = {
+    host: 'smtp.inolab.com',
+    port: 1025,
+    secure: false,
+    ignoreTLS: true,
+    secureConnection: false,
+    requiresAuth: false,
+    auth: {
+        user: 'noreply@inolab.com',
+        pass: 'M_InolabMail22*'
+    },
+    tls: {
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
+    },
+}
+
+
 /********* WEBHOOK  *****/
 
 const saveData = (data) => {
@@ -62,7 +80,8 @@ app.post('/webhook', async (req, res) => {
 
     try {
 
-        let info = await transporter.sendMail({
+        const transport = nodemailer.createTransport(config);
+        const info = await transporter.sendMail({
             from: 'noreply@inolab.com',
             to: 'josehernandez@inolab.com',
             subject: 'Nuevo Mensaje de WhatsApp',
