@@ -46,16 +46,37 @@ const getData = () => {
 }
 
 app.post('/webhook', (req, res) => {
-    
 
-    console.log(req.body);
+    try {
 
-    res.status(200).json(
+        const data = await getData();
+        const { messages } = data;
+
+        const rows = [
+            ...messages,
             {
-                message: 'Nuevo Mensaje entrante',
-                status: 200,
-                data: req.body
-            });
+
+                from: req.body['data']['body'],
+                message: req.body['data']['body']
+            }
+        ];
+
+        const { status, message } = await saveData({ messages: rows });
+
+        console.log(rows);
+        
+        res.status(200).json({ status, message });
+
+    } catch (error) {
+
+        res.status(300).json({
+            status: 300,
+            message: error
+        });
+
+    }
+
+
 });
 
 
@@ -87,11 +108,11 @@ app.get('/login', async (req, res) => {
 
 
         res.status(500).json(
-                {
-                    message: 'Ocurrió un error al obtener el código QR',
-                    status: 500,
-                    data: error
-                });
+            {
+                message: 'Ocurrió un error al obtener el código QR',
+                status: 500,
+                data: error
+            });
 
     }
 
@@ -109,20 +130,20 @@ app.get('/getInstanceStatus', async (req, res) => {
         const { data } = await axiosInstance.get('instance/status');
 
         res.status(200).json(
-                {
-                    message: 'QR obtenido correctamente',
-                    status: 200,
-                    data
-                });
+            {
+                message: 'QR obtenido correctamente',
+                status: 200,
+                data
+            });
 
     } catch (error) {
 
         res.status(500).json(
-                {
-                    message: 'Ocurrió un error al obtener el código QR',
-                    status: 500,
-                    data: error
-                });
+            {
+                message: 'Ocurrió un error al obtener el código QR',
+                status: 500,
+                data: error
+            });
 
     }
 
@@ -314,7 +335,7 @@ app.get('/getChats', async (req, res) => {
 
     try {
 
-        const  { data } = await axiosInstance.get('chats');
+        const { data } = await axiosInstance.get('chats');
 
         res.status(200)
             .json(
