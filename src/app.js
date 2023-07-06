@@ -197,22 +197,17 @@ app.post('/config', async (req, res) => {
 
     try {
 
-        const { sendDelay, webhookURL: webhook_url, onReceived: webhook_message_received, onCreated: webhook_message_create, onACK: webhook_message_ack } = req.body;
+        const { sendDelay, webhookURL, onReceived, onCreated, onACK } = req.body;
 
-        console.log(token,
-            sendDelay,
-            webhook_url,
-            webhook_message_received,
-            webhook_message_create,
-            webhook_message_ack);
+        console.log(req.body);
 
         const { data } = await axiosInstance.post('instance/settings', {
             token,
             sendDelay,
-            webhook_url,
-            webhook_message_received,
-            webhook_message_create,
-            webhook_message_ack
+            webhook_url: webhookURL,
+            webhook_message_received: onReceived,
+            webhook_message_create: onCreated,
+            webhook_message_ack: onACK
         });
 
         res.status(200)
