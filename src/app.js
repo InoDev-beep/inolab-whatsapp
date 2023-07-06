@@ -1,3 +1,4 @@
+import { readFile, writeFile } from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
@@ -52,7 +53,7 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-    
+
     const jsonData = await getData();
     const { messages } = jsonData;
 
