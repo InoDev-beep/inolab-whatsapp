@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
 });
 
 const config = {
-    host: 'smtppro.inolab.com',
+    host: 'smtp.inolab.com',
     port: 1025,
     secure: false,
     ignoreTLS: true,
@@ -52,7 +52,10 @@ const sendEmail = async (phone, name, body) => {
     const transport = nodemailer.createTransport(config);
     const info = await transport.sendMail(message);
 
-    return { info }
+    return {
+        status: info.accepted ? 200 : 300,
+        message: info.accepted ? 'Correo enviado correctamente' : 'Ocurrió un error al enviar el correo'
+    }
 }
 
 
@@ -64,18 +67,16 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-    const { info } = await sendEmail(phone, pushname, body);
+    const mail = await sendEmail(phone, pushname, body);
+    messages.push({ id, phone, pushname, body, time });
 
+    const result = await Promise.allSettled([mail]);
 
-    if(info.accepted){
-
-        messages.push({ id, phone, pushname, body, time });
-        console.log(messages);
-
-    }else{
-
-        console.log('Correo no enviado');
+    if (result.filter(({ status }) => status === 'rejected').length > 0) {
+        throw new Error('Ocurrió un error al enviar el correo');
     }
+
+    console.log(messages);
 });
 
 
