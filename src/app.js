@@ -52,8 +52,7 @@ app.post('/webhook', async (req, res) => {
     const { id, from, pushname, body, time } = data;
 
     const phone = from.toString().split('@')[0];
-    messages.push({ id, phone, pushname, body, time });
-
+    
     const jsonData = await getData();
     const { messages } = jsonData;
 
