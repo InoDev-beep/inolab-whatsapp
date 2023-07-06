@@ -11,7 +11,7 @@ app.use(cors({ origin: '*' }));
 
 const instanceId = 'instance53185';
 const token = 'zyvfgq78imhe4bnh';
-const sgAPI_KEY= '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';
+const sgAPI_KEY = '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';
 let messages = []
 
 sgMail.setApiKey(sgAPI_KEY);
@@ -37,13 +37,23 @@ app.post('/webhook', async (req, res) => {
     const phone = from.toString().split('@')[0];
     messages.push({ id, phone, pushname, body, time });
 
-      const msg = {
+    const msg = {
         to: 'josehernandez@inolab.com',
         from: 'noreply@inolab.com',
         subject: 'Asunto del correo',
         text: 'Contenido del correo',
-      };
-      sgMail.send(msg);
+    };
+
+    try {
+        await sgMail.send(msg);
+        console.log('Correo Enviado');
+    } catch (error) {
+        console.error(error);
+
+        if (error.response) {
+            console.error(error.response.body)
+        }
+    }
 
     console.log(messages);
 });

@@ -27,7 +27,7 @@
     "nodemon": "^2.0.22"
   },
   "dependencies": {
-    "@sendgrid/client": "^7.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
