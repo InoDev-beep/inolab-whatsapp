@@ -39,7 +39,7 @@ app.post('/webhook', async (req, res) => {
     messages.push({ id, phone, pushname, body, time });
 
     const msg = {
-        to: 'josehernandez@inolab.com',
+        to: 'josealiensystems@gmail.com',
         from: 'noreply@inolab.com',
         subject: 'Asunto del correo',
         text: 'Contenido del correo',
