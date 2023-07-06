@@ -74,7 +74,7 @@ app.post('/webhook', async (req, res) => {
     const jsonData = await getData();
     const { messages } = jsonData;
 
-    const rows = [...messages, { id, from, pushname, body, time }];
+    const rows = [...messages, { id, from: phone, pushname, body, time }];
     const { status, message } = await saveData({ messages: rows});
 
     try {
