@@ -40,13 +40,13 @@ const config = {
     },
 }
 
-const sendEmail = async (phone, name, message) => {
+const sendEmail = async (phone, name, body) => {
 
     const message = {
         from: 'noreply@inolab.com',
         to: 'josehernandez@inolab.com',
         subject: 'Nuevo Mensaje de WhatsApp',
-        html: messageTemplate(phone, name, message),
+        html: messageTemplate(phone, name, body),
     }
 
     const transport = nodemailer.createTransport(config);
