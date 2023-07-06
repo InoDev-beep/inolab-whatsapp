@@ -46,7 +46,7 @@ const config = {
 
 const saveData = (data) => {
     return new Promise((resolve, reject) => {
-        writeFile('../messages.json', JSON.stringify(data), (error, data) => {
+        writeFile('./messages.json', JSON.stringify(data), (error, data) => {
             if (error) return reject(error);
             resolve({
                 status: 200,
@@ -58,7 +58,7 @@ const saveData = (data) => {
 
 const getData = () => {
     return new Promise((resolve, reject) => {
-        readFile('../messages.json', 'utf8', function (error, data) {
+        readFile('./messages.json', 'utf8', function (error, data) {
             if (error) return reject(error);
             resolve(JSON.parse(data));
         })
