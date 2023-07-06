@@ -11,7 +11,6 @@ app.use(cors({ origin: '*' }));
 
 const instanceId = 'instance53185';
 const token = 'zyvfgq78imhe4bnh';
-let messages = []
 
 const axiosInstance = axios.create({
     baseURL: `https://api.ultramsg.com/${instanceId}/`,
