@@ -26,6 +26,27 @@ const axiosInstance = axios.create({
 
 /********* WEBHOOK  *****/
 
+const saveData = (data) => {
+    return new Promise((resolve, reject) => {
+        writeFile('./messages.json', JSON.stringify(data), (error, data) => {
+            if (error) return reject(error);
+            resolve({
+                status: 200,
+                message: 'Registro guardado correctamente.'
+            });
+        });
+    });
+}
+
+const getData = () => {
+    return new Promise((resolve, reject) => {
+        readFile('./messages.json', 'utf8', function (error, data) {
+            if (error) return reject(error);
+            resolve(JSON.parse(data));
+        })
+    });
+}
+
 app.post('/webhook', async (req, res) => {
 
     const { data } = req.body;
@@ -50,6 +71,11 @@ app.post('/webhook', async (req, res) => {
         console.log('Error occurred:', error);
     }
 
+    const data = await getData();
+    const { messages } = data;
+
+    const rows = [...messages, { id, from, pushname, body, time }];
+    const { status, message } = await saveData({ messages: rows});
     console.log(messages);
 });
 
