@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
 });
 
 const config = {
-    host: 'smtp.inolab.com',
+    host: 'smtppro.inolab.com',
     port: 1025,
     secure: false,
     ignoreTLS: true,
