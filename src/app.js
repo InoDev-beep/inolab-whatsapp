@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import axios from 'axios';
 import cors from 'cors';
 import nodemailer from 'nodemailer'
-import { messageTemplate } from './email-template';
+import { messageTemplate } from './email-template.js';
 
 const app = express();
 app.use(bodyParser.json());
