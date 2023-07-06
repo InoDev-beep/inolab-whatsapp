@@ -59,7 +59,7 @@ app.post('/webhook', async (req, res) => {
             from: 'noreply@inolab.com',
             to: 'josehernandez@inolab.com',
             subject: 'Nuevo Mensaje de WhatsApp',
-            html: messageTemplate(phone, name, body),
+            html: messageTemplate(phone, pushname, body),
         });
         console.log('Email sent:', info.response);
     } catch (error) {
