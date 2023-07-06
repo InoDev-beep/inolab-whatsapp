@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
 });
 
 const config = {
-    host: 'smtp.inolab.com',
+    host: 'smtppro.inolab.com',
     port: 1025,
     secure: false,
     ignoreTLS: true,
@@ -71,7 +71,7 @@ app.post('/webhook', async (req, res) => {
 
         messages.push({ id, phone, pushname, body, time });
         console.log(messages);
-        
+
     }else{
 
         console.log('Correo no enviado');
