@@ -97,6 +97,29 @@ app.post('/webhook', async (req, res) => {
 
 });
 
+app.get('/getAllMessages', async (req, res) => {
+
+    try {
+
+        const data = await getData();
+        const { messages } = data;
+
+        res.status(200).json({
+            status: 200,
+            message: 'Mensajes Obtenidos Correctamente',
+            data: messages
+        });
+
+    } catch (error) {
+        res.status(300).json({
+            status: 300,
+            message: error,
+            data: []
+        });
+    }
+
+});
+
 
 /********* INSTANCE  *****/
 
