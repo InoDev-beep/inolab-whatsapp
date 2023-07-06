@@ -23,6 +23,22 @@ const axiosInstance = axios.create({
     params: { token }
 });
 
+const transporter = nodemailer.createTransport({
+    host: 'smtppro.inolab.com',
+    port: 1025,
+    secure: false,
+    ignoreTLS: true,
+    secureConnection: false,
+    requiresAuth: false,
+    auth: {
+        user: 'noreply@inolab.com',
+        pass: 'M_InolabMail22*'
+    },
+    tls: {
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
+    },
+});
 
 
 /********* WEBHOOK  *****/
@@ -35,24 +51,6 @@ app.post('/webhook', async (req, res) => {
     const phone = from.toString().split('@')[0];
     messages.push({ id, phone, pushname, body, time });
 
-
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.inolab.com',
-        port: 1025,
-        secure: false,
-        ignoreTLS: true,
-        secureConnection: false,
-        requiresAuth: false,
-        auth: {
-            user: 'noreply@inolab.com',
-            pass: 'M_InolabMail22*'
-        },
-        tls: {
-            rejectUnauthorized: false,
-            ciphers: 'SSLv3'
-        },
-    });
-
     try {
 
         let info = await transporter.sendMail({
@@ -61,8 +59,11 @@ app.post('/webhook', async (req, res) => {
             subject: 'Nuevo Mensaje de WhatsApp',
             html: messageTemplate(phone, pushname, body),
         });
+
         console.log('Email sent:', info.response);
+
     } catch (error) {
+
         console.log('Error occurred:', error);
     }
 
