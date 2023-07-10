@@ -40,7 +40,7 @@ const getData = () => {
     });
 }
 
-export const getData = async (req, res) => {
+export const webhookEvent = async (req, res) => {
 
     const { data } = req.body;
     const { id, from, pushname, body, time } = data;

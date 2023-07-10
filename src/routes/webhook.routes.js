@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { webhook, getAllMessages } from "../controllers/webhook.controller.js";
+import { webhookEvent, getAllMessages } from "../controllers/webhook.controller.js";
 
 const router = Router();
 
-router.post('/webhook', webhook);
+router.post('/webhook', webhookEvent);
 
 router.get('/getAllMessages', getAllMessages)
 
