@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, getInstanceStatus, logout, config } from "../controllers/instance.controller";
+import { login, getInstanceStatus, logout, config } from "../controllers/instance.controller.js";
 
 const router = Router();
 
