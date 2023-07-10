@@ -1,5 +1,6 @@
 import { axiosInstance } from "../api/api.js";
 import nodemailer from 'nodemailer';
+import { messageTemplate } from './email-template.js';
 import { readFile, writeFile } from 'fs';
 
 const config = {
@@ -44,8 +45,7 @@ export const webhookEvent = async (req, res) => {
 
     const { data } = req.body;
     const { id, from, pushname, body, time } = data;
-    console.log(data);
-
+    
     const phone = from.toString().split('@')[0];
     const jsonData = await getData();
     const { messages } = jsonData;
@@ -53,7 +53,7 @@ export const webhookEvent = async (req, res) => {
     const rows = [...messages, { id, from: phone, pushname, body, time }];
     const { status, message } = await saveData({ messages: rows});
 
-    try {
+/*     try {
 
         const transport = nodemailer.createTransport(config);
         const info = await transport.sendMail({
@@ -68,7 +68,7 @@ export const webhookEvent = async (req, res) => {
     } catch (error) {
         
         console.log('Ocurrió un error al enviar el correo' + error);
-    }
+    } */
 
 }
 
