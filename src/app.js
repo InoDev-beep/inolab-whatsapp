@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { messageTemplate } from './email-template.js';
 import instanceRoute from './routes/instance.routes.js';
 import messagesRoute from './routes/messages.routes.js';
 import chatsRoute from './routes/chats.routes.js'

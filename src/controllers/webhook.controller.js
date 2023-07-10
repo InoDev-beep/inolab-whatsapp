@@ -1,6 +1,6 @@
 import { axiosInstance } from "../api/api.js";
 import nodemailer from 'nodemailer';
-import { messageTemplate } from './email-template.js';
+import { messageTemplate } from '../email-template.js';
 import { readFile, writeFile } from 'fs';
 
 const config = {
