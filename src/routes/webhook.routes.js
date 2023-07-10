@@ -3,7 +3,7 @@ import { webhookEvent, getAllMessages } from "../controllers/webhook.controller.
 
 const router = Router();
 
-router.post('/webhook', webhookEvent);
+router.post('/webhookEvent', webhookEvent);
 
 router.get('/getAllMessages', getAllMessages)
 
