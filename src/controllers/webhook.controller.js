@@ -67,7 +67,7 @@ export const webhookEvent = async (req, res) => {
 
     } catch (error) {
         
-        console.log('Ocurrió un error al enviar el correo');
+        console.log('Ocurrió un error al enviar el correo' + error);
     }
 
 }
