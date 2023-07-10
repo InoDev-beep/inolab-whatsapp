@@ -1,6 +1,6 @@
 import axios from 'axios';
-const instanceId = 'instance53185';
-const token = 'zyvfgq78imhe4bnh';
+const instanceId = 'instance53765';
+const token = 'tzyqyn7j2h64y4hy';
 
 export const axiosInstance = axios.create({
     baseURL: `https://api.ultramsg.com/${instanceId}/`,
