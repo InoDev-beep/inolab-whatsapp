@@ -44,6 +44,7 @@ export const webhookEvent = async (req, res) => {
 
     const { data } = req.body;
     const { id, from, pushname, body, time } = data;
+    console.log(data);
 
     const phone = from.toString().split('@')[0];
     const jsonData = await getData();
@@ -57,7 +58,7 @@ export const webhookEvent = async (req, res) => {
         const transport = nodemailer.createTransport(config);
         const info = await transport.sendMail({
             from: 'noreply@inolab.com',
-            to: 'marketing.contacto@inolab.com',
+            to: 'josehernandez@inolab.com',
             subject: 'Nuevo Mensaje de WhatsApp',
             html: messageTemplate(phone, pushname, body),
         });
