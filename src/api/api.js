@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { instanceId, token } from '../config';
+import { instanceId, token } from '../config.js';
 
 
 export const axiosInstance = axios.create({

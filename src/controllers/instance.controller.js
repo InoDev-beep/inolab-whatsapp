@@ -1,5 +1,5 @@
 import { axiosInstance } from "../api/api.js";
-import { token } from '../config';
+import { token } from '../config.js';
 
 /**
  * @description LOGIN
