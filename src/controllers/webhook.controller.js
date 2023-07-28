@@ -2,23 +2,7 @@ import { axiosInstance } from "../api/api.js";
 import nodemailer from 'nodemailer';
 import { messageTemplate } from '../email-template.js';
 import { readFile, writeFile } from 'fs';
-
-const config = {
-    host: 'smtp.inolab.com',
-    port: 1025,
-    secure: false,
-    ignoreTLS: true,
-    secureConnection: false,
-    requiresAuth: false,
-    auth: {
-        user: 'noreply@inolab.com',
-        pass: 'M_InolabMail22*'
-    },
-    tls: {
-        rejectUnauthorized: false,
-        ciphers: 'SSLv3'
-    },
-}
+import { EMAIL_CONFIG } from "../config.js"; 
 
 const saveData = (data) => {
     return new Promise((resolve, reject) => {
@@ -53,9 +37,11 @@ export const webhookEvent = async (req, res) => {
     const rows = [...messages, { id, from: phone, pushname, body, time }];
     const { status, message } = await saveData({ messages: rows});
 
-/*     try {
+    /*     
+    //Se deshabilitó el envío de correo cuando se recibe un WhastApp.
+    try {
 
-        const transport = nodemailer.createTransport(config);
+        const transport = nodemailer.createTransport(EMAIL_CONFIG);
         const info = await transport.sendMail({
             from: 'noreply@inolab.com',
             to: 'josehernandez@inolab.com',
@@ -68,7 +54,8 @@ export const webhookEvent = async (req, res) => {
     } catch (error) {
         
         console.log('Ocurrió un error al enviar el correo' + error);
-    } */
+    } 
+    */
 
 }
 
