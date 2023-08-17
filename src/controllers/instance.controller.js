@@ -1,5 +1,5 @@
 import { axiosInstance } from "../api/api.js";
-import { token } from '../config.js';
+import { TOKEN } from "../config.js";
 
 /**
  * @description LOGIN
@@ -78,7 +78,7 @@ export const logout = async (req, res) => {
 
     try {
 
-        const { data } = await axiosInstance.get('instance/logout', { token });
+        const { data } = await axiosInstance.get('instance/logout', { token:  TOKEN});
 
         res.status(200)
             .json(
@@ -120,7 +120,7 @@ export const config = async (req, res) => {
         const { sendDelay, webhookURL, onReceived, onCreated, onACK } = req.body;
 
         const { data } = await axiosInstance.post('instance/settings', {
-            token,
+            token: TOKEN,
             sendDelay,
             webhook_url: webhookURL,
             webhook_message_received: onReceived,
